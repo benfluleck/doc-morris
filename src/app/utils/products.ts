@@ -1,32 +1,36 @@
-import { Product } from "@/app/entities/product";
+import { ProductResponse } from "@entities/product";
 import { useEffect, useState } from "react";
 
-const getAllAvailableProducts = async (): Promise<Product[]> => {
+const getAllAvailableProducts = async (): Promise<Record<ProductResponse["code"], ProductResponse>> => {
   const productsReq = await fetch("http://localhost:3000/api/products");
 
-  const products = (await productsReq.json()) as Product[];
+  const products = (await productsReq.json()) as ProductResponse[];
 
-  const availableProducts = await products.filter(
-    (product: Product) => product.available
-  );
+  const availableProductsById = await products.filter(
+    (product: ProductResponse) => product.available
+  ).reduce((acc, current) => {
+    acc[current.code] = current;
+    return acc;
+  }, {} as Record<ProductResponse["code"], ProductResponse>);
 
-  return availableProducts;
+  return availableProductsById;
 };
 
 export const useGetProducts = () => {
-  const [products, setProducts] = useState<Product[] | []>([]);
+  const [productsById, setProductsById] = useState<Record<ProductResponse["code"], ProductResponse>>({});
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await getAllAvailableProducts();
 
-      setProducts(response);
+      setProductsById(response);
     };
 
     fetchData();
   }, []);
 
   return {
-    products,
+    productsById,
+    products: Object.values(productsById)
   };
 };

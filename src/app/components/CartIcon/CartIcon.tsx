@@ -1,10 +1,7 @@
+import { IconProps } from "@entities/icon";
 import { FC } from "react";
 
-interface CartIconProps {
-  size?: number;
-}
-
-const CartIcon: FC<CartIconProps> = ({ size = 21 }) => (
+const CartIcon: FC<IconProps> = ({ size = 21 }) => (
   <>
     <div className="text-white">+</div>
     <svg

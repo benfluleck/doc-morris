@@ -1,31 +1,33 @@
-export type ProductCartDetail = {
+interface Product {
   id: string;
   imageSrc: string;
   name: string;
   dosageForm: string;
   packagingSize: string;
   price: string;
-  stock: number;
-  onClick?: (product: ProductCartDetail) => void;
-  setStock: React.Dispatch<React.SetStateAction<number>>;
-};
+  stock?: number;
+}
 
-export type ProductCardProps = {
-  imageSrc: string;
+export interface ProductCartDetail extends ProductDetail {
+  count: number;
+  onCartUpdate: (id: string, count: number) => void;
+}
+
+export interface ProductDetail extends Product {
+  onClick?: (product: ProductDetail) => void;
+}
+
+export interface ProductCardProps extends Product {
   imageWidth?: number;
   imageHeight?: number;
-  name: string;
   stock: number;
   supplier: string;
-  dosageForm: string;
-  packagingSize: string;
   basePrice: string;
   price: string;
   discount: string;
   priority?: boolean;
-  id: string;
-  onClick?: (product: ProductCartDetail) => void;
-};
+  onClick: (id: string) => void;
+}
 
 type Price = {
   value: number;
@@ -62,7 +64,7 @@ type Image = {
   variants: { [k: string]: Variant };
 };
 
-export type Product = {
+export type ProductResponse = {
   name: string;
   code: string;
   stock: number;

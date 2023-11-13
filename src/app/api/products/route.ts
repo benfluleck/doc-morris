@@ -1,8 +1,8 @@
 import { promises as fs } from "fs";
 import { NextResponse } from "next/server";
-import { Product } from "@/app/entities/product";
+import { ProductResponse } from "@/app/entities/product";
 
-const getAllProducts = async (): Promise<Product[]> => {
+const getAllProducts = async (): Promise<ProductResponse[]> => {
   const products = await fs.readFile(
     process.cwd() + "/src/app/mocks/products.json",
     "utf-8"

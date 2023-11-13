@@ -3,7 +3,7 @@ import { ProductCardProps } from "@/app/entities/product";
 import { FC, useState } from "react";
 import ImageWithFallback from "@components/ImageWithFallback/ImageWithFallback";
 import HeartIcon from "@components/HeartIcon/HeartIcon";
-import { CartButton as AddToCart } from "@components/CartButton/CartButton";
+import CartButton from "@components/CartButton/CartButton";
 import Stock from "@components/Stock/Stock";
 
 const ProductCard: FC<ProductCardProps> = ({
@@ -22,11 +22,9 @@ const ProductCard: FC<ProductCardProps> = ({
   priority,
   onClick,
 }) => {
-  const [currentStock, setCurrentStock] = useState<number>(stock);
-
   return (
     <div className="flex flex-col gap-2">
-      <Stock stock={currentStock} />
+      <Stock stock={stock} />
       <ImageWithFallback
         imageSrc={imageSrc}
         width={imageWidth}
@@ -49,17 +47,7 @@ const ProductCard: FC<ProductCardProps> = ({
         </p>
       </div>
       <p className="text-zinc-500 text-xs font-semibold">{basePrice}</p>
-      <AddToCart
-        id={id}
-        imageSrc={imageSrc}
-        name={name}
-        packagingSize={packagingSize}
-        dosageForm={dosageForm}
-        price={price}
-        stock={currentStock}
-        setStock={setCurrentStock}
-        onClick={onClick}
-      />
+      <CartButton id={id} stock={stock} onClick={onClick} />
     </div>
   );
 };

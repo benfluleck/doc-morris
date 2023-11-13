@@ -1,7 +1,7 @@
+import { IconProps } from "@entities/icon";
 import { FC } from "react";
 
-interface HeartIconProps {
-  size?: number;
+interface HeartIconProps extends IconProps{
   isLiked?: boolean;
 }
 
