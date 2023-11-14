@@ -8,14 +8,12 @@ interface Product {
   stock?: number;
 }
 
-export interface ProductCartDetail extends ProductDetail {
+export interface ProductCartDetail extends Product {
   count: number;
+  onRemoveClick: (id:string) => void;
   onCartUpdate: (id: string, count: number) => void;
 }
 
-export interface ProductDetail extends Product {
-  onClick?: (product: ProductDetail) => void;
-}
 
 export interface ProductCardProps extends Product {
   imageWidth?: number;
@@ -77,3 +75,11 @@ export type ProductResponse = {
   available: boolean;
   images: Image[];
 };
+
+
+export type CartItemListProps = {
+  cartItems: Record<ProductCartDetail["id"], number>
+  productsById: Record<ProductResponse["code"], ProductResponse>
+  onRemoveItem: (id:string) => void;
+  onUpdateCart: (id: string, count: number) => void;
+}

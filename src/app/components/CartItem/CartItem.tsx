@@ -1,8 +1,7 @@
-import { ProductCartDetail } from "@/app/entities/product";
+import { ProductCartDetail } from "@entities/product";
 import { FC } from "react";
 import ImageWithFallback from "@components/ImageWithFallback/ImageWithFallback";
 import RemoveIcon from "@components/RemoveIcon/RemoveIcon";
-
 
 const CartItem: FC<ProductCartDetail> = ({
   id,
@@ -12,11 +11,16 @@ const CartItem: FC<ProductCartDetail> = ({
   packagingSize,
   price,
   onCartUpdate,
+  onRemoveClick,
   count,
 }) => {
-  const handleBlur = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     onCartUpdate(id, Number(event.target.value));
   };
+
+  const handleClick = () => {
+    onRemoveClick(id)
+  }
 
   return (
     <div className="flex gap-8">
@@ -27,10 +31,12 @@ const CartItem: FC<ProductCartDetail> = ({
         name={name}
         priority
       />
-      <div>
+      <div className="flex flex-col gap-0.5">
         <div className="flex">
           <h3 className="font-semibold w-48 line-clamp-2">{name}</h3>
-          <RemoveIcon />
+          <button onClick={handleClick}>
+            <RemoveIcon />
+          </button>
         </div>
         <div>
           <p className="text-slate-500 text-xs font-semibold line-clamp-2">
@@ -46,8 +52,8 @@ const CartItem: FC<ProductCartDetail> = ({
             min="1"
             step="1"
             value={count}
-            onChange={handleBlur}
-            className="border-solid border-black border flex w-32"
+            onChange={handleChange}
+            className="border-solid border-black text-center border flex w-32"
           />
           <p className="text-sm font-semibold">{price}</p>
         </div>

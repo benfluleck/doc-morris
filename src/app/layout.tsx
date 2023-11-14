@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main>{children}</main>
+        <main className="mt-20">{children}</main>
       </body>
     </html>
   );

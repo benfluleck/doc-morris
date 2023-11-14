@@ -4,7 +4,7 @@ import styles from "@/app/homepage.module.css";
 import { ProductCartDetail, ProductResponse } from "@entities/product";
 import { useGetProducts } from "@utils/products";
 import { useState } from "react";
-import CartItem from "@components/CartItem/CartItem";
+import CartItemList from "./components/CartItemList/CartItemList";
 
 export default function Home() {
   const { products, productsById } = useGetProducts();
@@ -25,60 +25,59 @@ export default function Home() {
     }
   };
 
+  const onRemoveItem = (id: string) => {
+    const currentItems = { ...cartItems };
+
+    delete currentItems[id];
+
+    setCartItems(currentItems);
+  };
+
   const getStock = (id: string, product: ProductResponse) => {
     return product.stock - (cartItems[id] || 0);
   };
 
-  console.log({ productsById });
-
   return (
-    <div className="flex w-full">
-      <div className={`${styles.container} p-6 flex-1`}>
-        {products.map((product, index) => {
-          const imageUrl =
-            product.images[0].variants["140"].formats.webp.resolutions["2x"]
-              .url;
+    <>
+      <div className="flex w-full px-8">
+        <div className={`${styles.container} p-6 flex-1`}>
+          {products.map((product, index) => {
+            const imageUrl =
+              product.images[0].variants["140"].formats.webp.resolutions["2x"]
+                .url;
 
-          return (
-            <ProductCard
-              key={product.code}
-              id={product.code}
-              imageSrc={imageUrl}
-              imageWidth={product.images[0].variants["140"].width}
-              imageHeight={product.images[0].variants["140"].height}
-              name={product.name}
-              supplier={product.supplier}
-              dosageForm={product.dosageForm}
-              stock={getStock(product.code, product)}
-              packagingSize={product.packagingSize}
-              basePrice={product.baseprice}
-              price={product.prices.salesPrice.formattedValue}
-              discount={product.prices.savings.formattedValue}
-              onClick={handleClick}
-              priority={index <= 4}
-            />
-          );
-        })}
+            return (
+              <ProductCard
+                key={product.code}
+                id={product.code}
+                imageSrc={imageUrl}
+                imageWidth={product.images[0].variants["140"].width}
+                imageHeight={product.images[0].variants["140"].height}
+                name={product.name}
+                supplier={product.supplier}
+                dosageForm={product.dosageForm}
+                stock={getStock(product.code, product)}
+                packagingSize={product.packagingSize}
+                basePrice={product.baseprice}
+                price={product.prices.salesPrice.formattedValue}
+                discount={product.prices.savings.formattedValue}
+                onClick={handleClick}
+                priority={index <= 4}
+              />
+            );
+          })}
+        </div>
+        <CartItemList
+          cartItems={cartItems}
+          productsById={productsById}
+          onUpdateCart={onUpdateCart}
+          onRemoveItem={onRemoveItem}
+        />
       </div>
-      <div style={{ width: "400px" }}>
-        {Object.entries(cartItems).map(([id, count]) => (
-          <CartItem
-            key={id}
-            {...productsById[id]}
-            price={productsById[id].prices.salesPrice.formattedValue}
-            imageSrc={
-              productsById[id].images[0].variants["140"].formats.webp
-                .resolutions["2x"].url
-            }
-            name={productsById[id].name}
-            dosageForm={productsById[id].dosageForm}
-            packagingSize={productsById[id].packagingSize}
-            id={productsById[id].code}
-            onCartUpdate={onUpdateCart}
-            count={count}
-          />
-        ))}
+      <div className="flex items-center justify-around h-24 bg-white w-full fixed border-solid border-t bottom-0 border-slate-300">
+        <p className="text-sm">4 Produkte</p>
+        <button className="text-sm bg-button px-4 py-3 rounded-md text-white">Zur Ubersicht</button>
       </div>
-    </div>
+    </>
   );
 }

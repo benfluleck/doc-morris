@@ -1,0 +1,7 @@
+@media screen and (max-width: 625px) {
+  .container {
+    display: none;
+  }
+}
+
+
