@@ -1,8 +1,8 @@
 "use client";
 import { ProductCardProps } from "@/app/entities/product";
-import { FC, useState } from "react";
+import { FC } from "react";
 import ImageWithFallback from "@components/ImageWithFallback/ImageWithFallback";
-import HeartIcon from "@components/HeartIcon/HeartIcon";
+import HeartIcon from "@/app/components/Icons/HeartIcon/HeartIcon";
 import CartButton from "@components/CartButton/CartButton";
 import Stock from "@components/Stock/Stock";
 
@@ -23,7 +23,7 @@ const ProductCard: FC<ProductCardProps> = ({
   onClick,
 }) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 pt-4">
       <Stock stock={stock} />
       <ImageWithFallback
         imageSrc={imageSrc}

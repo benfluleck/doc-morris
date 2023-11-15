@@ -9,5 +9,6 @@ export const getTotal = (
   for (let element in cartItems) {
     sum += productsById[element].prices.salesPrice.value * cartItems[element];
   }
-  return sum.toFixed(2);
+  return sum.toLocaleString("de-DE", { minimumFractionDigits: 2 });
 };
+

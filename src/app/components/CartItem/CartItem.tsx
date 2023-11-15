@@ -1,7 +1,7 @@
 import { ProductCartDetail } from "@entities/product";
-import { FC } from "react";
+import { FC, useState } from "react";
 import ImageWithFallback from "@components/ImageWithFallback/ImageWithFallback";
-import RemoveIcon from "@components/RemoveIcon/RemoveIcon";
+import RemoveIcon from "@/app/components/Icons/RemoveIcon/RemoveIcon";
 
 const CartItem: FC<ProductCartDetail> = ({
   id,
@@ -10,30 +10,41 @@ const CartItem: FC<ProductCartDetail> = ({
   dosageForm,
   packagingSize,
   price,
+  stock,
   onCartUpdate,
   onRemoveClick,
   count,
 }) => {
+  const [error, setError] = useState("");
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    onCartUpdate(id, Number(event.target.value));
+    const { value } = event.target;
+    setError("");
+
+    if (Number(value) > stock) {
+      setError("You can enter more than stock");
+      return;
+    }
+    onCartUpdate(id, Number(value));
   };
 
   const handleClick = () => {
-    onRemoveClick(id)
-  }
+    onRemoveClick(id);
+  };
 
   return (
-    <div className="flex gap-8">
+    <div className="flex gap-8 max-[450px]:gap-2">
       <ImageWithFallback
         imageSrc={imageSrc}
         width={110}
         height={110}
         name={name}
-        priority
       />
-      <div className="flex flex-col gap-0.5">
-        <div className="flex">
-          <h3 className="font-semibold w-48 line-clamp-2">{name}</h3>
+      <div className="flex grow flex-col gap-0.5">
+        <div className="flex justify-between">
+          <h3 className="font-semibold max-[450px]:w-40 w-48 line-clamp-2">
+            {name}
+          </h3>
           <button onClick={handleClick}>
             <RemoveIcon />
           </button>
@@ -47,14 +58,20 @@ const CartItem: FC<ProductCartDetail> = ({
           </p>
         </div>
         <div className="flex py-2 justify-between">
-          <input
-            type="number"
-            min="1"
-            step="1"
-            value={count}
-            onChange={handleChange}
-            className="border-solid border-black text-center border flex w-32"
-          />
+          <div>
+            <input
+              type="number"
+              min="1"
+              max={stock}
+              step="1"
+              value={count}
+              onChange={handleChange}
+              className="border-solid border-black text-center border flex w-32"
+            />
+            <span className="text-xs text-red-400 line-clamp-2 w-32">
+              {error}
+            </span>
+          </div>
           <p className="text-sm font-semibold">{price}</p>
         </div>
       </div>

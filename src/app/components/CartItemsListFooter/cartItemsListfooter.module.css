@@ -1,0 +1,19 @@
+.wrapper {
+  display: none;
+}
+
+.noWrapper {
+  display: block;
+}
+
+@media screen and (max-width: 625px) {
+  .wrapper {
+    display: block;
+  }
+  .container {
+    bottom: 0;
+    width: 100%;
+    position: fixed;
+    background-color: white;
+  }
+}

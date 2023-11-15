@@ -1,10 +1,17 @@
 "use client";
+import { useState } from "react";
+import dynamic from 'next/dynamic'
 import ProductCard from "@components/ProductCard/ProductCard";
-import styles from "@/app/homepage.module.css";
 import { ProductCartDetail, ProductResponse } from "@entities/product";
 import { useGetProducts } from "@utils/products";
-import { useState } from "react";
-import CartItemList from "./components/CartItemList/CartItemList";
+import CartItemList from "@components/CartItemList/CartItemList";
+import CartItemListFooter from "@components/CartItemsListFooter/CartItemsListFooter";
+
+import styles from "@/app/homepage.module.css";
+
+
+const BottomSheet = dynamic(() => import('@components/BottomSheet/BottomSheet'));
+
 
 export default function Home() {
   const { products, productsById } = useGetProducts();
@@ -12,6 +19,8 @@ export default function Home() {
   const [cartItems, setCartItems] = useState<
     Record<ProductCartDetail["id"], number>
   >({});
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const onUpdateCart = (id: string, count: number) => {
     setCartItems((prevValues) => ({ ...prevValues, [id]: count }));
@@ -39,8 +48,21 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex w-full px-8">
-        <div className={`${styles.container} p-6 flex-1`}>
+      {isOpen && (
+        <BottomSheet
+          cartItems={cartItems}
+          productsById={productsById}
+          onUpdateCart={onUpdateCart}
+          onRemoveItem={onRemoveItem}
+          setIsOpen={setIsOpen}
+        />
+      )}
+      <div className="flex w-full px-6">
+        <div
+          className={`p-6 flex-1 max-[650px]:p-0 max-[650px]:divide-y max-[650px]:divide-slate-200 ${
+            isOpen ? `${styles.hidden}` : `${styles.container}`
+          }`}
+        >
           {products.map((product, index) => {
             const imageUrl =
               product.images[0].variants["140"].formats.webp.resolutions["2x"]
@@ -74,10 +96,13 @@ export default function Home() {
           onRemoveItem={onRemoveItem}
         />
       </div>
-      <div className="flex items-center justify-around h-24 bg-white w-full fixed border-solid border-t bottom-0 border-slate-300">
-        <p className="text-sm">4 Produkte</p>
-        <button className="text-sm bg-button px-4 py-3 rounded-md text-white">Zur Ubersicht</button>
-      </div>
+      <CartItemListFooter
+        cartItems={cartItems}
+        productsById={productsById}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        isFooter={true}
+      />
     </>
   );
 }

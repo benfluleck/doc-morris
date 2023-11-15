@@ -5,7 +5,7 @@ interface Product {
   dosageForm: string;
   packagingSize: string;
   price: string;
-  stock?: number;
+  stock: number;
 }
 
 export interface ProductCartDetail extends Product {
@@ -82,4 +82,6 @@ export type CartItemListProps = {
   productsById: Record<ProductResponse["code"], ProductResponse>
   onRemoveItem: (id:string) => void;
   onUpdateCart: (id: string, count: number) => void;
+  isOpen?: boolean;
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>
 }

@@ -29,6 +29,7 @@ const ImageWithFallback: FC<ImageWithFallbackProps> = ({
       width={width}
       height={height}
       alt={`${name} image`}
+      aria-hidden={true}
       priority={priority}
       onError={() => {
         setImgSrc(fallbackSrc);

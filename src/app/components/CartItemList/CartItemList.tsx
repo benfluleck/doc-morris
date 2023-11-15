@@ -1,10 +1,9 @@
 import { FC } from "react";
 import CartItem from "@components/CartItem/CartItem";
+import CartItemListFooter from "@components/CartItemsListFooter/CartItemsListFooter";
 import { CartItemListProps } from "@entities/product";
-import { getTotal } from "@utils/total";
 
-import styles from './cartItemList.module.css';
-
+import styles from "./cartItemList.module.css";
 
 const CartItemList: FC<CartItemListProps> = ({
   cartItems,
@@ -29,6 +28,7 @@ const CartItemList: FC<CartItemListProps> = ({
               dosageForm={productsById[id].dosageForm}
               packagingSize={productsById[id].packagingSize}
               id={productsById[id].code}
+              stock={productsById[id].stock}
               onCartUpdate={onUpdateCart}
               onRemoveClick={onRemoveItem}
               count={count}
@@ -36,13 +36,11 @@ const CartItemList: FC<CartItemListProps> = ({
           );
         })}
       </div>
-      <div className="flex flex-col gap-2 p-6 border-t border-solid border-slate-300">
-        <h3 className="font-semibold">Total</h3>
-        <div className="flex justify-between">
-          <p>Summe ({Object.keys(cartItems).length} Produkte)</p>
-          <p>Total {getTotal(cartItems, productsById)} &#x20AC;</p>
-        </div>
-      </div>
+      <CartItemListFooter
+        cartItems={cartItems}
+        productsById={productsById}
+        isOpen={true}
+      />
     </div>
   );
 };

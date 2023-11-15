@@ -13,7 +13,8 @@
     "next": "14.0.1",
     "path": "^0.12.7",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-spring": "^9.7.3"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
