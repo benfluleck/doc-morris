@@ -1,17 +1,15 @@
 "use client";
 import { useState } from "react";
-import dynamic from 'next/dynamic'
-import ProductCard from "@components/ProductCard/ProductCard";
-import { ProductCartDetail, ProductResponse } from "@entities/product";
+import dynamic from "next/dynamic";
+import { ProductCartDetail } from "@entities/product";
 import { useGetProducts } from "@utils/products";
 import CartItemList from "@components/CartItemList/CartItemList";
 import CartItemListFooter from "@components/CartItemsListFooter/CartItemsListFooter";
+import ProductCardList from "@components/ProductCardList/ProductCardList";
 
-import styles from "@/app/homepage.module.css";
-
-
-const BottomSheet = dynamic(() => import('@components/BottomSheet/BottomSheet'));
-
+const BottomSheet = dynamic(
+  () => import("@components/BottomSheet/BottomSheet")
+);
 
 export default function Home() {
   const { products, productsById } = useGetProducts();
@@ -42,9 +40,6 @@ export default function Home() {
     setCartItems(currentItems);
   };
 
-  const getStock = (id: string, product: ProductResponse) => {
-    return product.stock - (cartItems[id] || 0);
-  };
 
   return (
     <>
@@ -58,37 +53,12 @@ export default function Home() {
         />
       )}
       <div className="flex w-full px-6">
-        <div
-          className={`p-6 flex-1 max-[650px]:p-0 max-[650px]:divide-y max-[650px]:divide-slate-200 ${
-            isOpen ? `${styles.hidden}` : `${styles.container}`
-          }`}
-        >
-          {products.map((product, index) => {
-            const imageUrl =
-              product.images[0].variants["140"].formats.webp.resolutions["2x"]
-                .url;
-
-            return (
-              <ProductCard
-                key={product.code}
-                id={product.code}
-                imageSrc={imageUrl}
-                imageWidth={product.images[0].variants["140"].width}
-                imageHeight={product.images[0].variants["140"].height}
-                name={product.name}
-                supplier={product.supplier}
-                dosageForm={product.dosageForm}
-                stock={getStock(product.code, product)}
-                packagingSize={product.packagingSize}
-                basePrice={product.baseprice}
-                price={product.prices.salesPrice.formattedValue}
-                discount={product.prices.savings.formattedValue}
-                onClick={handleClick}
-                priority={index <= 4}
-              />
-            );
-          })}
-        </div>
+        <ProductCardList
+          products={products}
+          cartItems={cartItems}
+          handleClick={handleClick}
+          isOpen={isOpen}
+        />
         <CartItemList
           cartItems={cartItems}
           productsById={productsById}

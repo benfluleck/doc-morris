@@ -1,4 +1,3 @@
-"use client";
 import CartIcon from "@components/CartIcon/CartIcon";
 
 const CartButton = ({
@@ -13,6 +12,7 @@ const CartButton = ({
   return (
     <button
       aria-label="add-to-cart"
+      data-testid="cart-button"
       disabled={stock <= 0}
       onClick={() => {
         onClick(

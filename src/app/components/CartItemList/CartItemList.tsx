@@ -12,7 +12,7 @@ const CartItemList: FC<CartItemListProps> = ({
   onRemoveItem,
 }) => {
   return (
-    <div className={`pt-6 shadow-md mt-11 h-fit w-fit ${styles.container}`}>
+    <div data-testid="cartItemList-component" className={`pt-6 shadow-md mt-11 h-fit w-fit ${styles.container}`}>
       <h2 className="pl-6 text-slate-300">Zum Warenkorb hinzugefugt</h2>
       <div className="p-6">
         {Object.entries(cartItems).map(([id, count]) => {

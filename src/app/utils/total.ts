@@ -12,3 +12,11 @@ export const getTotal = (
   return sum.toLocaleString("de-DE", { minimumFractionDigits: 2 });
 };
 
+
+export const getStock = (
+  id: string,
+  product: ProductResponse,
+  cartItems: Record<ProductCartDetail["id"], number>
+) => {
+  return product.stock - (cartItems[id] || 0);
+};

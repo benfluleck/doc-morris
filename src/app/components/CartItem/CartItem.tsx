@@ -22,7 +22,7 @@ const CartItem: FC<ProductCartDetail> = ({
     setError("");
 
     if (Number(value) > stock) {
-      setError("You can enter more than stock");
+      setError("You can't enter more than stock value");
       return;
     }
     onCartUpdate(id, Number(value));
@@ -33,7 +33,7 @@ const CartItem: FC<ProductCartDetail> = ({
   };
 
   return (
-    <div className="flex gap-8 max-[450px]:gap-2">
+    <div data-testid="cart-item-component" className="flex gap-8 max-[450px]:gap-2">
       <ImageWithFallback
         imageSrc={imageSrc}
         width={110}
@@ -42,10 +42,10 @@ const CartItem: FC<ProductCartDetail> = ({
       />
       <div className="flex grow flex-col gap-0.5">
         <div className="flex justify-between">
-          <h3 className="font-semibold max-[450px]:w-40 w-48 line-clamp-2">
+          <h3 aria-label="Product name" className="font-semibold max-[450px]:w-40 w-48 line-clamp-2">
             {name}
           </h3>
-          <button onClick={handleClick}>
+          <button aria-label="remove cart item" onClick={handleClick}>
             <RemoveIcon />
           </button>
         </div>
@@ -60,6 +60,7 @@ const CartItem: FC<ProductCartDetail> = ({
         <div className="flex py-2 justify-between">
           <div>
             <input
+              data-testid="cart-input"
               type="number"
               min="1"
               max={stock}

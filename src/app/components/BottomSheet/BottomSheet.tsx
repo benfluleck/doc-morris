@@ -22,10 +22,10 @@ const BottomSheet: FC<CartItemListProps> = ({
   });
 
   return (
-    <animated.div style={style}>
+    <animated.div data-testid="bottom-sheet" style={style}>
       <div className="bg-white pb-28 pt-6 border-t-2 rounded">
         <div className="flex items-center mb-8 justify-around">
-          <button aria-label="close-cart" onClick={() => setIsOpen(false)}>
+          <button aria-label="close-cart" data-testid="arrow-button" onClick={() => setIsOpen(false)}>
             <ArrowDownIcon />
           </button>
           <h2 className="pl-6 text-slate-300 text-center">

@@ -19,7 +19,8 @@ const CartItemListFooter = ({
 
   return (
     <div
-      className={`${isFooter ? `${styles.wrapper}` : `${styles.noWrapper}`} `}
+      className={`${isFooter ? `${styles.wrapper}` : `${styles.noWrapper}`}`}
+      data-testid="cart-items-list-footer"
     >
       {isOpen ? (
         <div
