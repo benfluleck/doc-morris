@@ -1,78 +1,30 @@
-"use client";
-import { useState } from "react";
-import dynamic from "next/dynamic";
-import { ProductCartDetail } from "@entities/product";
-import { useGetProducts } from "@utils/products";
-import CartItemList from "@components/CartItemList/CartItemList";
-import CartItemListFooter from "@components/CartItemsListFooter/CartItemsListFooter";
-import ProductCardList from "@components/ProductCardList/ProductCardList";
-
-const BottomSheet = dynamic(
-  () => import("@components/BottomSheet/BottomSheet")
-);
-
-export default function Home() {
-  const { products, productsById } = useGetProducts();
-
-  const [cartItems, setCartItems] = useState<
-    Record<ProductCartDetail["id"], number>
-  >({});
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const onUpdateCart = (id: string, count: number) => {
-    setCartItems((prevValues) => ({ ...prevValues, [id]: count }));
-  };
-
-  const handleClick = (id: string) => {
-    if (id in cartItems) {
-      setCartItems((prev) => ({ ...prev, [id]: cartItems[id] + 1 }));
-    } else {
-      setCartItems((prev) => ({ ...prev, [id]: 1 }));
-    }
-  };
-
-  const onRemoveItem = (id: string) => {
-    const currentItems = { ...cartItems };
-
-    delete currentItems[id];
-
-    setCartItems(currentItems);
-  };
+import HomePage from "@components/HomePage/HomePage";
+import { ProductResponse } from "./entities/product";
 
 
-  return (
-    <>
-      {isOpen && (
-        <BottomSheet
-          cartItems={cartItems}
-          productsById={productsById}
-          onUpdateCart={onUpdateCart}
-          onRemoveItem={onRemoveItem}
-          setIsOpen={setIsOpen}
-        />
-      )}
-      <div className="flex w-full px-6">
-        <ProductCardList
-          products={products}
-          cartItems={cartItems}
-          handleClick={handleClick}
-          isOpen={isOpen}
-        />
-        <CartItemList
-          cartItems={cartItems}
-          productsById={productsById}
-          onUpdateCart={onUpdateCart}
-          onRemoveItem={onRemoveItem}
-        />
-      </div>
-      <CartItemListFooter
-        cartItems={cartItems}
-        productsById={productsById}
-        setIsOpen={setIsOpen}
-        isOpen={isOpen}
-        isFooter={true}
-      />
-    </>
-  );
+const BASE_URL = 'http://localhost:3000'
+
+async function getData() {
+  const res = await fetch(`${BASE_URL}/api/products`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  const response = await res.json();
+
+  const availableProductsById = response
+    .filter((product: ProductResponse) => product.available)
+    .reduce((acc: { [x: string]: any }, current: { code: string | number }) => {
+      acc[current.code] = current;
+      return acc;
+    }, {} as Record<ProductResponse["code"], ProductResponse>);
+
+  return availableProductsById;
+}
+
+export default async function Home() {
+  const data = await getData();
+
+  return <HomePage productsById={data} products={Object.values(data)} />;
 }

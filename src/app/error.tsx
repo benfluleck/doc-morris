@@ -8,9 +8,15 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div>
-      <h2>{error.message || "Something went wrong!"}</h2>
-      <button onClick={() => reset()}>Try again</button>
+    <div className="p-6">
+      <h2 className="text-lg">Error Page</h2>
+      <h3>{error.message || "Something went wrong!"}</h3>
+      <button
+        className="bg-button px-4 py-3 rounded-md text-white"
+        onClick={() => reset()}
+      >
+        Try again
+      </button>
     </div>
   );
 }

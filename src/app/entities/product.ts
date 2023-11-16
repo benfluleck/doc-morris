@@ -10,10 +10,9 @@ interface Product {
 
 export interface ProductCartDetail extends Product {
   count: number;
-  onRemoveClick: (id:string) => void;
+  onRemoveClick: (id: string) => void;
   onCartUpdate: (id: string, count: number) => void;
 }
-
 
 export interface ProductCardProps extends Product {
   imageWidth?: number;
@@ -76,12 +75,16 @@ export type ProductResponse = {
   images: Image[];
 };
 
-
 export type CartItemListProps = {
-  cartItems: Record<ProductCartDetail["id"], number>
-  productsById: Record<ProductResponse["code"], ProductResponse>
-  onRemoveItem: (id:string) => void;
+  cartItems: Record<ProductCartDetail["id"], number>;
+  productsById: Record<ProductResponse["code"], ProductResponse>;
+  onRemoveItem: (id: string) => void;
   onUpdateCart: (id: string, count: number) => void;
   isOpen?: boolean;
-  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>
-}
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type HomePageProps = {
+  products: ProductResponse[];
+  productsById: Record<ProductResponse["code"], ProductResponse>;
+};
