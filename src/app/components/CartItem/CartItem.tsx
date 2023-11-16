@@ -1,7 +1,7 @@
-import { ProductCartDetail } from "@entities/product";
 import { FC, useState } from "react";
+import { ProductCartDetail } from "@entities/product";
 import ImageWithFallback from "@components/ImageWithFallback/ImageWithFallback";
-import RemoveIcon from "@/app/components/Icons/RemoveIcon/RemoveIcon";
+import RemoveIcon from "@components/Icons/RemoveIcon/RemoveIcon";
 
 const CartItem: FC<ProductCartDetail> = ({
   id,

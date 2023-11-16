@@ -1,7 +1,7 @@
-import { ProductCardProps } from "@/app/entities/product";
 import { FC } from "react";
+import { ProductCardProps } from "@entities/product";
 import ImageWithFallback from "@components/ImageWithFallback/ImageWithFallback";
-import HeartIcon from "@/app/components/Icons/HeartIcon/HeartIcon";
+import HeartIcon from "@components/Icons/HeartIcon/HeartIcon";
 import CartButton from "@components/CartButton/CartButton";
 import Stock from "@components/Stock/Stock";
 

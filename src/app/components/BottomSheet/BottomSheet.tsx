@@ -1,6 +1,6 @@
+import { animated, useSpring } from "react-spring";
 import { FC } from "react";
 import { CartItemListProps } from "@/app/entities/product";
-import { animated, useSpring } from "react-spring";
 import CartItem from "@components/CartItem/CartItem";
 import ArrowDownIcon from "@components/Icons/ArrowDown/ArrowDown";
 

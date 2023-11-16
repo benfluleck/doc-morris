@@ -1,5 +1,5 @@
-import { IconProps } from "@entities/icon";
 import { FC } from "react";
+import { IconProps } from "@entities/icon";
 
 const CartIcon: FC<IconProps> = ({ size = 21 }) => (
   <>

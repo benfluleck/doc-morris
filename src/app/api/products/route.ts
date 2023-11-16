@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import { NextResponse } from "next/server";
-import { ProductResponse } from "@/app/entities/product";
+import { ProductResponse } from "@entities/product";
 
 const getAllProducts = async (): Promise<ProductResponse[]> => {
   const products = await fs.readFile(

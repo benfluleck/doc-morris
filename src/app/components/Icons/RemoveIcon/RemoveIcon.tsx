@@ -1,5 +1,5 @@
-import { IconProps } from "@entities/icon";
 import { FC } from "react";
+import { IconProps } from "@entities/icon";
 
 const RemoveIcon: FC<IconProps> = ({ size = 20 }) => (
   <svg
